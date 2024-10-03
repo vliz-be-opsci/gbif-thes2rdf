@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "gbif-thes2rdf"
+version = "0.1.0"
+description = "Simple approach to converting thesaurus xml format to RDF (ttl and jsonld)"
+authors = ["Marc Portier <marc.portier@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "gbif_thes2rdf"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pysema = "^0.1.0"
+xmlasdict = "^0.2.2"
+python-dotenv = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

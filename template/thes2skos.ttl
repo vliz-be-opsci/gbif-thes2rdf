@@ -1,0 +1,55 @@
+{%- set dc    = 'http://purl.org/dc/terms/' -%}
+{%- set gbift = 'http://rs.gbif.org/thesaurus/' -%}
+{%- set xml   = 'http://www.w3.org/XML/1998/namespace' -%}
+
+@prefix dc: <{{ dc }}>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+{%- set collection_uri = URI | uri %}
+
+{{ collection_uri }}
+  a skos:Collection;
+    {%- if title %}
+  dc:title {{ title | xsd('@en') }};
+    {%- endif %}
+    {%- if description %}
+  dc:description {{ description | xsd ('@en') }};
+    {%- endif %}
+    {%- if issued %}
+  dc:issued {{ issued | xsd('date') }};
+    {%- endif %}
+.
+
+{%- set thesaurus = sets['_'] %}
+{%- for concept in thesaurus  %}
+    {%- set concept_uri = concept['@{'+ dc + '}URI']  | uri %}
+    {%- set concept_id = concept['@{'+ dc + '}identifier'] %}
+    {%- set concept_descr = concept['@{'+ dc + '}description'] %}
+
+{{ collection_uri }}
+  skos:member {{ concept_uri }}.
+{{ concept_uri }} 
+  a skos:Concept;
+    {%- if concept_id %}
+  dc:identifier {{ concept_id | xsd('string') }};
+    {%- endif %}
+    {%- if concept_descr %}
+  dc:description {{ concept_descr | xsd('string') }};
+    {%- endif %}
+    {%- if concept['@{'+ dc + '}URI'] %}
+    {%- endif %}
+    {%- for labelgroup in concept['{' + gbift + '}*[]'] %}
+        {%- set predicate = null %}
+        {%- if 'preferred' in labelgroup.tag %}{% set predicate = 'skos:prefLabel' %}{% endif %}
+        {%- if 'alternative' in labelgroup.tag %}{% set predicate = 'skos:altLabel' %}{% endif %}
+        {%- if predicate %}
+            {%- for term in labelgroup['{' + gbift + '}term[]'] %}
+                {%- set title = term['@{'+ dc + '}title'] %}
+                {%- set lang  = term['@{'+ xml + '}lang'] %} 
+  {{ predicate }} {{ title | xsd('@' ~ lang) }};
+            {%- endfor -%}
+        {% endif -%}
+    {%- endfor %} 
+. 
+{% endfor %}

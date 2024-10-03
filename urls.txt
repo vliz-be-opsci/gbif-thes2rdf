@@ -1,0 +1,3 @@
+https://rs.gbif.org/vocabulary/iucn/habitat.xml
+https://rs.gbif.org/vocabulary/gbif/rank.xml
+https://rs.gbif.org/vocabulary/gbif/taxonomic_status.xml
