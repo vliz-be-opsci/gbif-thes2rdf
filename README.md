@@ -7,7 +7,8 @@ Currently these are made available only in a gbif-specific [thesaurus-xml-format
 
 
 # Scope
-To provide a - make a script that converts thesaurus xml into ttl and jsonld representations
+
+To provide a solution that automatically converts thesaurus xml into ttl and jsonld representations (targetting skos)
 
 
 # Usage
@@ -28,8 +29,9 @@ The resulting `**/*.ttl` (text/turlte) and `** /*.jsonld` (application/ld+json) 
 
 
 # Ref
+
 - see [some selection](urls.txt) of thesauri to consider.
-- a local `./bin/get_thes_from_urls.sh` script will download them to a local `./data` folder
+Note: the locally provided `./bin/get_thes_from_urls.sh` script will download them to a local `./data` folder
 
 
 # TODO
